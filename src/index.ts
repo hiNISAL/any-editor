@@ -1,6 +1,5 @@
 import EDITOR_CONFIG from './config/editor.config';
-import frameStyle from '@/config/editor-content-style.config';
-import EditorUI from './EditorUI/index';
+import EditorUI from './modules/EditorUI/index';
 
 class AnyEditor {
   static config = EDITOR_CONFIG;
@@ -31,6 +30,20 @@ class AnyEditor {
    */
   private initUI(config, initHTML) {
     this.uiContainer = new EditorUI(config, initHTML);
+  }
+
+  /**
+   * 获取html内容
+   */
+  public get html() {
+    return this.uiContainer!.dom!.outerHTML;
+  }
+
+  /**
+   * 设置html内容
+   */
+  public set html(html: string) {
+    this.uiContainer!.setContent(html);
   }
 }
 

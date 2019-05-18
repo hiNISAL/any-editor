@@ -1,28 +1,22 @@
 import frameStyle from '@/config/editor-content-style.config';
+import { defaultHTML, baseTemplate, checkContentEmpty } from './helpers';
 import './index.scss';
-
-const baseTemplate = () :string => {
-  return `
-    <div class="__ae-menu">
-
-    </div>
-    <div class="__ae-content">
-      <iframe id="__ae-content-area"></iframe>
-    </div>
-  `;
-};
-
-const defaultHTML = '<div contentEditable><p><br></p></div>';
 
 class EditorUI {
   public dom: HTMLElement|null = null;
   public editorContent: HTMLIFrameElement|null = null;
 
   private config: any = {};
-  private initHTML: string = '';
+  private initHTML: string = defaultHTML;
 
+  /**
+   * 构造函数
+   * @param config
+   * @param initHTML
+   */
   constructor(config, initHTML: string = defaultHTML) {
     this.config = config;
+    this.initHTML = initHTML;
 
     this.createUI();
 
@@ -45,14 +39,30 @@ class EditorUI {
     this.dom = element;
   }
 
+  /**
+   * 设置编辑器内容
+   * @param content 
+   */
+  public setContent(content: string) {
+    const initHTML = checkContentEmpty(content);
+
+    (this.editorContent as any).contentDocument.body.innerHTML = initHTML;
+  }
+
+  /**
+   * 注册事件
+   */
   private registerEvents() {
+    /**
+     * 注册 window 的 onload 事件
+     * 在 onload 后对 iframe 内容进行初始化
+     */
     window.addEventListener('load', () => {
       const editorContent: any = this.editorContent;
-      editorContent.contentDocument.write(this.initHTML);
+      this.setContent(this.initHTML);
 
-      editorContent.contentDocument.designMode = 'on';
-
-      editorContent.contentDocument.body.style = frameStyle();
+      // 把自定义样式挂进去
+      editorContent.contentDocument.querySelector('head').appendChild(frameStyle());
     });
   }
 }
