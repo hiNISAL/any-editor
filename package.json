@@ -1,6 +1,6 @@
 {
   "name": "any-editor",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "简单易扩展的富文本编辑器",
   "main": "app.js",
   "scripts": {

@@ -5,3 +5,21 @@
 ## 开发进度
 
 项目设计与架构中...
+
+## 使用方式
+
+``` js
+  // commonjs
+  const AnyEditor = require('any-editor');
+  //es module
+  import AnyEditor from 'any-editor';
+
+  editor.create(container);
+
+  // 浏览器中
+  <script src="any-editor.min.js"></script>
+  <script>
+    const editor = new Editor();
+    editor.create(container);
+  </script>
+```
