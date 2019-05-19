@@ -1,5 +1,6 @@
 import EDITOR_CONFIG from './config/editor.config';
 import EditorUI from './modules/EditorUI/index';
+import NativePlugin from './NativePlugin';
 
 class AnyEditor {
   static config = EDITOR_CONFIG;
@@ -7,7 +8,6 @@ class AnyEditor {
   private uiContainer: null|EditorUI = null;
 
   constructor() {
-
   }
 
   /**
@@ -17,7 +17,9 @@ class AnyEditor {
   public create(container: HTMLElement) {
     const initInnerHTML: string = container.innerHTML;
 
-    this.initUI({}, initInnerHTML);
+    this.initUI({
+      plugins: NativePlugin,
+    }, initInnerHTML);
 
     container.innerHTML = '';
     container.appendChild(this.uiContainer!.dom!);

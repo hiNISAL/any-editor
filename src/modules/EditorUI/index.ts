@@ -37,7 +37,7 @@ class EditorUI {
     const element: HTMLElement = document.createElement('div');
     element.className = '__any-editor-wrap'
 
-    element.innerHTML = baseTemplate();
+    element.innerHTML = baseTemplate(this.config);
 
     const editorContent: any = element.querySelector('iframe');
 

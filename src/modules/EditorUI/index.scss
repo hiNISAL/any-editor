@@ -1,5 +1,5 @@
 .__any-editor-wrap {
-  border: 1px solid rgb(221, 221, 221);
+  border: 1px solid #dddddd;
 
   * {
     margin: 0;
@@ -7,14 +7,15 @@
   }
 
   .__ae-menu {
-    border-bottom: 1px solid rgb(221, 221, 221);
+    border-bottom: 1px solid #dddddd;
+    background: #efefef;
     user-select: none;
     line-height: 40px;
     height: 40px;
     display: flex;
 
     .item.active {
-      background: rgb(35, 103, 180);
+      background: #2367b4;
       color: white;
     }
 
@@ -26,7 +27,7 @@
       cursor: pointer;
 
       &:hover {
-        background: rgb(35, 103, 180);
+        background: #2367b4;
         color: white;
       }
     }
