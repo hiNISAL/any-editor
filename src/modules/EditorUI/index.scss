@@ -1,5 +1,5 @@
 .__any-editor-wrap {
-  border: 1px solid #f00;
+  border: 1px solid rgb(221, 221, 221);
 
   * {
     margin: 0;
@@ -7,13 +7,36 @@
   }
 
   .__ae-menu {
+    border-bottom: 1px solid rgb(221, 221, 221);
+    user-select: none;
+    line-height: 40px;
+    height: 40px;
+    display: flex;
 
+    .item.active {
+      background: rgb(35, 103, 180);
+      color: white;
+    }
+
+    .item {
+      min-width: 30px;
+      padding: 0 5px;
+      text-align: center;
+      transition: all .2s;
+      cursor: pointer;
+
+      &:hover {
+        background: rgb(35, 103, 180);
+        color: white;
+      }
+    }
   }
 
   .__ae-content {
     #__ae-content-area {
       width: 100%;
       border: 0 none;
+      min-height: 600px;
     }
   }
 }

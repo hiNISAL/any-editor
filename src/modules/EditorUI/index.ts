@@ -6,8 +6,14 @@ class EditorUI {
   public dom: HTMLElement|null = null;
   public editorContent: HTMLIFrameElement|null = null;
 
+  // 配置
   private config: any = {};
+  // 初始化的 html 内容
   private initHTML: string = defaultHTML;
+  // 编辑区域内的 document 对象
+  private editorDocument: null|Document = null;
+  // 编辑区域内的 window 对象
+  private editorWindow: null|Window = null;
 
   /**
    * 构造函数
@@ -46,7 +52,7 @@ class EditorUI {
   public setContent(content: string) {
     const initHTML = checkContentEmpty(content);
 
-    (this.editorContent as any).contentDocument.body.innerHTML = initHTML;
+    this.editorDocument!.body.innerHTML = initHTML;
   }
 
   /**
@@ -59,10 +65,13 @@ class EditorUI {
      */
     window.addEventListener('load', () => {
       const editorContent: any = this.editorContent;
+      this.editorDocument = editorContent.contentDocument;
+      this.editorWindow = editorContent.contentWindow;
+
       this.setContent(this.initHTML);
 
       // 把自定义样式挂进去
-      editorContent.contentDocument.querySelector('head').appendChild(frameStyle());
+      (this.editorDocument as any).querySelector('head').appendChild(frameStyle());
     });
   }
 }

@@ -7,7 +7,10 @@ import { rmSpace } from '@/helpers/utils';
 export const baseTemplate = () :string => {
   return `
     <div class="__ae-menu">
-
+      <div class="item">
+        <i class=""></i>
+        <span>U</span>
+      </div>
     </div>
     <div class="__ae-content">
       <iframe id="__ae-content-area"></iframe>

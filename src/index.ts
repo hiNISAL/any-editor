@@ -45,6 +45,13 @@ class AnyEditor {
   public set html(html: string) {
     this.uiContainer!.setContent(html);
   }
+
+  /**
+   * html-setter的语法糖
+   */
+  public setHTML(html: string) {
+    this.uiContainer!.setContent(html);
+  }
 }
 
 export default AnyEditor;

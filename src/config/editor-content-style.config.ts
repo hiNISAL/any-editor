@@ -8,11 +8,11 @@ const style: string = `
     margin: 0;
     padding: 0;
     outline: none;
+    word-wrap: break-word;
+    word-break: break-all;
   }
 
   body {
-    word-wrap: break-word;
-    word-break: break-all;
     position: relative;
   }
 
@@ -22,6 +22,7 @@ const style: string = `
     left: 0;
     right: 0;
     bottom: 0;
+    padding: 8px;
   }
 `;
 
