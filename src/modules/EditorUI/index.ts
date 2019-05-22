@@ -35,7 +35,7 @@ class EditorUI {
 
     this.setEventMap();
 
-    this.registerEvents();
+    this.initIframe();
   }
 
   /**
@@ -115,31 +115,17 @@ class EditorUI {
   }
 
   /**
-   * 注册事件
+   * 等待iframe初始化 并获得doc win等内容
    */
-  private registerEvents() {
-    /**
-     * 注册 window 的 onload 事件
-     * 在 onload 后对 iframe 内容进行初始化
-     */
-    window.addEventListener('load', () => {
+  private initIframe() {
+    setTimeout(() => {
       const editorContent: any = this.editorContent;
       this.editorDocument = editorContent.contentDocument;
       this.editorWindow = editorContent.contentWindow;
 
       this.setContent(this.initHTML);
-
       // 把自定义样式挂进去
       (this.editorDocument as any).querySelector('head').appendChild(frameStyle());
-    });
-
-    this.dom!.querySelector('.__ae-menu')!.addEventListener('click', (e) => {
-      const target: any = e.target;
-      const path: any = (e as any).path;
-
-      if (!path.some(p => (p.className || '').startsWith('__age-menu-item'))) return;
-
-
     });
   }
 }

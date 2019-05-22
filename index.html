@@ -7,15 +7,19 @@
   <title>Document</title>
 </head>
 <body>
+  <button>init</button>
   <div id="app">
     <div>
       <a href="">fdsafas</a>
     </div>
   </div>
   <script>
-    const editor = new AnyEditor();
+    document.querySelector('button').addEventListener('click', () => {
+      const editor = new AnyEditor();
 
-    editor.create(document.querySelector('#app'));
+      editor.create(document.querySelector('#app'));
+    })
+    
   </script>
 </body>
 </html>
