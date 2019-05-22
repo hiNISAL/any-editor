@@ -6,8 +6,6 @@ export default {
   word: 'U',
 
   event: {
-    click(doc, win, ctx) {
 
-    },
   }
 };

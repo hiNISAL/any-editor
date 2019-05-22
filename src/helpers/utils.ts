@@ -8,3 +8,5 @@ export const createStyleTag = (style: string): HTMLElement => {
 
   return styleTag;
 }
+
+export const randomString = (): string => Math.random().toString(14).substring(2);

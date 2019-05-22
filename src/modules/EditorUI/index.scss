@@ -14,14 +14,14 @@
     height: 40px;
     display: flex;
 
-    .item.active {
+    .__age-menu-item.active {
       background: #2367b4;
       color: white;
     }
 
-    .item {
+    .__age-menu-item {
       min-width: 30px;
-      padding: 0 5px;
+      padding: 0 8px;
       text-align: center;
       transition: all .2s;
       cursor: pointer;

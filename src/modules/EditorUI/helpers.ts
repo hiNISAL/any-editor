@@ -11,7 +11,7 @@ export const baseTemplate = (config) :string => {
       ${
         plugins.map((plug) => {
           return `
-            <div class="item">
+            <div class="__age-menu-item ${ plug.id }">
               <i class=""></i>
               <span>${ plug.word }</span>
             </div>

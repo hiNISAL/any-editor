@@ -31,7 +31,7 @@ class AnyEditor {
    * @param initHTML 
    */
   private initUI(config, initHTML) {
-    this.uiContainer = new EditorUI(config, initHTML);
+    this.uiContainer = new EditorUI(config, initHTML, this);
   }
 
   /**
