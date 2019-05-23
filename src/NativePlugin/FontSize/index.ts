@@ -6,8 +6,8 @@ export default {
   word: '14px',
 
   event: {
-    click(doc, win, ctx) {
-
+    click(e, ctx) {
+      console.log(e, ctx);
     },
   }
 };
