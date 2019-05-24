@@ -1,4 +1,6 @@
-class Custom {
+import Plug from './Plug';
+
+class Custom extends Plug {
 
 }
 

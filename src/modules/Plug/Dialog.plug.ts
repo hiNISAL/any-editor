@@ -1,4 +1,6 @@
-class Dialog {
+import Plug from './Plug';
+
+class Dialog extends Plug {
 
 }
 

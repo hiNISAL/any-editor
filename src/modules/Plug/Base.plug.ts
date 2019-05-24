@@ -1,4 +1,6 @@
-class Base {
+import Plug from './Plug';
+
+class Base extends Plug {
 
 }
 

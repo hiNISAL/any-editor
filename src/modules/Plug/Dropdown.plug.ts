@@ -1,4 +1,6 @@
-class Dropdown {
+import Plug from './Plug';
+
+class Dropdown extends Plug {
 
 }
 
