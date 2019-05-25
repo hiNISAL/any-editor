@@ -1,7 +1,7 @@
 import frameStyle from '@/config/editor-content-style.config';
 import { defaultHTML, baseTemplate, checkContentEmpty } from './helpers';
+import { randomString, getPlug } from '@/helpers/utils';
 import './index.scss';
-import { randomString } from '@/helpers/utils';
 
 class EditorUI {
   public dom: HTMLElement|null = null;
@@ -33,8 +33,6 @@ class EditorUI {
 
     this.createUI();
 
-    this.setEventMap();
-
     this.initIframe();
   }
 
@@ -55,16 +53,27 @@ class EditorUI {
     const { plugins } = this.config;
     
     plugins.forEach((item) => {
-      const dom = this.dom!.querySelector(`.${item.id}`);
 
       this.eventMap[item.id] = {
-        event: item.event,
-        dom,
-        _config: item,
+        plug: new (getPlug(item.type) as any)(item, {
+          document: this.editorDocument,
+          window: this.editorWindow,
+          UI: this,
+          Editor: this.Editor,
+        }),
       };
 
-      this.setPlugEvent(item.id);
+      // const dom = this.dom!.querySelector(`.${item.id}`);
+
+      // this.eventMap[item.id] = {
+      //   event: item.event,
+      //   dom,
+      //   _config: item,
+      // };
+
+      // this.setPlugEvent(item.id);
     });
+    console.log(this.eventMap);
   }
 
   /**
@@ -122,6 +131,8 @@ class EditorUI {
       const editorContent: any = this.editorContent;
       this.editorDocument = editorContent.contentDocument;
       this.editorWindow = editorContent.contentWindow;
+      
+      this.setEventMap();
 
       this.setContent(this.initHTML);
       // 把自定义样式挂进去
