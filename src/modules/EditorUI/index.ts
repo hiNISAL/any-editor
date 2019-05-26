@@ -1,6 +1,6 @@
 import frameStyle from '@/config/editor-content-style.config';
 import { defaultHTML, baseTemplate, checkContentEmpty } from './helpers';
-import { randomString, getPlug } from '@/helpers/utils';
+import { randomString, getPlug, $create, $, $append, $on, $$, $hide, asyncTask } from '@/helpers/utils';
 import './index.scss';
 
 class EditorUI {
@@ -16,8 +16,10 @@ class EditorUI {
   private editorDocument: null|Document = null;
   // 编辑区域内的 window 对象
   private editorWindow: null|Window = null;
-  // 事件id映射表
-  private eventMap: any = {};
+  // 插件id映射表
+  private plugMag: any = {};
+  // 插件样式集
+  private plugStyle: string = '';
 
   /**
    * 构造函数
@@ -29,32 +31,23 @@ class EditorUI {
     this.initHTML = initHTML;
     this.Editor = Editor;
 
-    this.initConf();
-
     this.createUI();
 
     this.initIframe();
-  }
-
-  /**
-   * 预处理配置文件
-   */
-  private initConf() {
-    this.config.plugins.forEach((plug) => {
-      plug.id = `id-${ randomString() }`;
-    });
   }
 
 
   /**
    * 设置事件表
    */
-  private setEventMap() {
+  private setPlugMap() {
     const { plugins } = this.config;
-    
-    plugins.forEach((item) => {
+    const styles: string[] = [];
 
-      this.eventMap[item.id] = {
+    plugins.forEach((item) => {
+      item.id = `id-${ randomString() }`;
+
+      this.plugMag[item.id] = {
         plug: new (getPlug(item.type) as any)(item, {
           document: this.editorDocument,
           window: this.editorWindow,
@@ -63,38 +56,11 @@ class EditorUI {
         }),
       };
 
-      // const dom = this.dom!.querySelector(`.${item.id}`);
-
-      // this.eventMap[item.id] = {
-      //   event: item.event,
-      //   dom,
-      //   _config: item,
-      // };
-
-      // this.setPlugEvent(item.id);
+      styles.push(item.style || '');
     });
-    console.log(this.eventMap);
-  }
 
-  /**
-   * 设置插件的事件
-   * @param id
-   */
-  private setPlugEvent(id) {
-    const item = this.eventMap[id];
-
-    // 遍历事件列表中的所有事件 并且进行绑定
-    for (const [k, v] of Object.entries(item.event)) {
-      item.dom!.addEventListener(k, (e) => {
-        (v as any)(e, {
-          document: this.editorDocument,
-          window: this.editorWindow,
-          UI: this,
-          Editor: this.Editor,
-          _config: item._config,
-        });
-      });
-    }
+    this.plugStyle = styles.join('');
+    console.log(this.plugMag);
   }
 
   /**
@@ -102,15 +68,14 @@ class EditorUI {
    * @param initHTML
    */
   public createUI() {
-    const element: HTMLElement = document.createElement('div');
-    element.className = '__any-editor-wrap'
-
-    element.innerHTML = baseTemplate(this.config);
-
-    const editorContent: any = element.querySelector('iframe');
+    const el = $create('div', {
+      class: '__any-editor-wrap',
+      html: baseTemplate(),
+    });
+    const editorContent: any = $('iframe', el);
 
     this.editorContent = editorContent;
-    this.dom = element;
+    this.dom = el;
   }
 
   /**
@@ -127,16 +92,41 @@ class EditorUI {
    * 等待iframe初始化 并获得doc win等内容
    */
   private initIframe() {
-    setTimeout(() => {
+    asyncTask(() => {
       const editorContent: any = this.editorContent;
       this.editorDocument = editorContent.contentDocument;
       this.editorWindow = editorContent.contentWindow;
       
-      this.setEventMap();
+      this.setPlugMap();
 
       this.setContent(this.initHTML);
       // 把自定义样式挂进去
       (this.editorDocument as any).querySelector('head').appendChild(frameStyle());
+   
+      // 把插件的dom插入到编辑器
+      this.renderPlug();
+      // 绑定其他事件
+      this.bindCommonEvents();
+    });
+  }
+
+  // 渲染插件
+  private renderPlug() {
+    $append(
+      $('.__ae-menu', this.dom), 
+      ...Object.values(this.plugMag).map((item: any) => item.plug.dom)
+    );
+  }
+
+  private bindCommonEvents() {
+    $on(this.editorDocument, 'click', (e) => {
+      $$('.drop-items', this.dom).forEach(el => $hide(el));
+    });
+
+    $on(this.dom, 'click', (e) => {
+      if (!e.path.some((el) => (el.className === 'drop-items'))) {
+        $$('.drop-items', this.dom).forEach(el => $hide(el));
+      }
     });
   }
 }

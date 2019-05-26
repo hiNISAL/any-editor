@@ -1,13 +1,26 @@
-class Plug {
-  private name: string = '';
-  private tip: string = '';
-  private icon: string = '';
-  private word: string = '';
-  private type: string = '';
-  private events: any = {};
-  private contexts: any = {};
-  private config: any = {};
-  private dom: HTMLElement|null = null;
+/*
+ * File: Plug.ts
+ * Project: any-editor
+ * File Created: Saturday, 25th May 2019 2:35:42 pm
+ * Author: NISAL_(∠ゝз:)_ (dongjianye@nears.cn)
+ * -----
+ * Copyright 2016 - 2019 Your Company, Your Company
+ * -----
+ * Description: 插件基类
+ */
+import { $create } from "@/helpers/utils";
+
+export class Plug {
+  public name: string = '';
+  public tip: string = '';
+  public icon: string = '';
+  public word: string = '';
+  public type: string = '';
+  public events: any = {};
+  public contexts: any = {};
+  public config: any = {};
+  public id: string = '';
+  public dom: HTMLElement|null = $create('div');
 
   public constructor(config, ctx) {
     this.config = config;
@@ -23,7 +36,8 @@ class Plug {
       icon,
       word,
       event,
-      type = 'base'
+      type = 'base',
+      id,
     } = this.config;
     
     this.name = name;
@@ -32,7 +46,10 @@ class Plug {
     this.word = word;
     this.events = event;
     this.type = type;
+    this.id = id;
   }
 }
 
-export default Plug;
+export interface IPlug {
+
+}

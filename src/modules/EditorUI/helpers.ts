@@ -4,20 +4,9 @@ import { rmSpace } from '@/helpers/utils';
  * 编辑器的基本模版
  * 包含上下两块区域
  */
-export const baseTemplate = (config) :string => {
-  const plugins = config.plugins;
+export const baseTemplate = () :string => {
   return `
     <div class="__ae-menu">
-      ${
-        plugins.map((plug) => {
-          return `
-            <div class="__age-menu-item ${ plug.id }">
-              <i class=""></i>
-              <span>${ plug.word }</span>
-            </div>
-          `;
-        }).join('')
-      }
     </div>
     <div class="__ae-content">
       <iframe id="__ae-content-area"></iframe>
