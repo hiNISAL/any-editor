@@ -40,9 +40,15 @@ class Dropdown extends Plug {
               : 'height: auto'
           }">
             ${
-              this.dropItems.map((item) => {
+              this.dropItems.map((item, index) => {
                 return `
-                  <div class="item" ${ item.title ? `title="${ item.title }"` : '' }>
+                  <div
+                    class="item"
+                    ${ item.title ? `title="${ item.title }"` : '' }
+                    data-value="${ item.value }"
+                    data-label="${ item.label }"
+                    data-index="${ index }"
+                  >
                     ${ item.label }
                   </div>
                 `;
@@ -60,21 +66,41 @@ class Dropdown extends Plug {
     const hoverShow = this.hoverShow;
     const dropWrap = $('.drop-items', this.dom);
     const menu = $('.__age-menu-item', this.dom);
+    const ctx = {...this.contexts};
+
+    const { 
+      click = () => {}, 
+      mouseover = () => {},
+      mouseout = () => {},
+    } = this.events;
 
     // 根据是否悬停就展开列表做不同的事件绑定
     if (hoverShow) {
+      // 悬停显示分别绑定两个鼠标事件
       $on(menu, 'mouseover', (e) => {
-        $show(dropWrap);
+        const res = mouseover(e, ctx);
+        if (res !== false) {
+          $show(dropWrap);
+        }
       });
 
       $on(menu, 'mouseout', (e) => {
-        $hide(dropWrap);
+        const res = mouseout(e, ctx);
+
+        if (res !== false) {
+          $hide(dropWrap);
+        }
       });
     } else {
       $on(menu, 'click', (e) => {
         e.stopPropagation();
 
-        $show(dropWrap);
+        const show = click(e, ctx);
+
+        // 如果return了false 则不展开下拉菜单
+        if (show !== false) {
+          $show(dropWrap);
+        }
       });
     }
   }
