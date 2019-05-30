@@ -2,7 +2,7 @@ const sizes = ['9', '10', '12', '14', '16', '18', '20', '22', '24', '26', '28', 
 
 export default {
   type: 'dropdown',
-  hoverShow: false,
+  hoverShow: true,
   maxHeight: 300,
 
   name: 'font-size',
@@ -17,7 +17,7 @@ export default {
 
   event: {
     click(e, ctx) {
-      console.log(e, ctx);
+      ctx.close();
     },
   },
 

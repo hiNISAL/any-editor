@@ -43,7 +43,7 @@ class Dropdown extends Plug {
               this.dropItems.map((item, index) => {
                 return `
                   <div
-                    class="item"
+                    class="item "
                     ${ item.title ? `title="${ item.title }"` : '' }
                     data-value="${ item.value }"
                     data-label="${ item.label }"
@@ -66,7 +66,13 @@ class Dropdown extends Plug {
     const hoverShow = this.hoverShow;
     const dropWrap = $('.drop-items', this.dom);
     const menu = $('.__age-menu-item', this.dom);
-    const ctx = {...this.contexts};
+
+    // 带给事件 方便触发下拉框的主动关闭
+    const close = () => {
+      $hide(dropWrap);
+    };
+
+    const ctx = {...this.contexts, close};
 
     const { 
       click = () => {}, 
@@ -90,6 +96,27 @@ class Dropdown extends Plug {
         if (res !== false) {
           $hide(dropWrap);
         }
+      });
+
+      // 选项要点击 所以还是要点的
+      $on(menu, 'click', (e) => {
+        const { target } = e;
+
+        // 获取到塞在属性里的数据
+        const label = target.getAttribute('data-label');
+        const value = target.getAttribute('data-value');
+
+        let detail = {};
+
+        // item表示是否命中下拉框内的内容
+        if (label && value) {
+          detail = { label, value, el: target, item: true };
+        } else {
+          detail = { el: target, item: false };
+        }
+
+        const xCtx = {...ctx, detail}
+        click(e, xCtx);
       });
     } else {
       $on(menu, 'click', (e) => {
