@@ -7,6 +7,13 @@ interface IDropItem {
   title?: string,
 };
 
+interface IDetail {
+  isTarget: boolean,
+  el: any,
+  value: string,
+  label: string,
+};
+
 class Dropdown extends Plug {
   private dropItems: IDropItem[] = [];
   private hoverShow: boolean = false;
@@ -62,6 +69,23 @@ class Dropdown extends Plug {
     this.dom = el;
   }
 
+  private getDetail(target): IDetail {
+    // 获取到塞在属性里的数据
+    const label = target.getAttribute('data-label');
+    const value = target.getAttribute('data-value');
+
+    let detail: IDetail = { el: null, isTarget: false, label: '', value: '' };
+
+    // item表示是否命中下拉框内的内容
+    if (label && value) {
+      detail = { label, value, el: target, isTarget: true };
+    } else {
+      detail = { el: target, isTarget: false, label: '', value: '' };
+    }
+
+    return detail;
+  }
+
   private setEvent() {
     const hoverShow = this.hoverShow;
     const dropWrap = $('.drop-items', this.dom);
@@ -102,18 +126,7 @@ class Dropdown extends Plug {
       $on(menu, 'click', (e) => {
         const { target } = e;
 
-        // 获取到塞在属性里的数据
-        const label = target.getAttribute('data-label');
-        const value = target.getAttribute('data-value');
-
-        let detail = {};
-
-        // item表示是否命中下拉框内的内容
-        if (label && value) {
-          detail = { label, value, el: target, item: true };
-        } else {
-          detail = { el: target, item: false };
-        }
+        const detail = this.getDetail(target);
 
         const xCtx = {...ctx, detail}
         click(e, xCtx);
@@ -122,10 +135,12 @@ class Dropdown extends Plug {
       $on(menu, 'click', (e) => {
         e.stopPropagation();
 
-        const show = click(e, ctx);
+        const detail: IDetail = this.getDetail(e.target);
+
+        const show = click(e, { ...ctx, detail });
 
         // 如果return了false 则不展开下拉菜单
-        if (show !== false) {
+        if (show !== false && !detail.isTarget) {
           $show(dropWrap);
         }
       });
