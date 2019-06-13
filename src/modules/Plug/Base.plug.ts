@@ -33,8 +33,9 @@ class Base extends Plug implements IPlug {
 
     for (const [k, v] of Object.entries(events)) {
       $on(this.dom, k, (e) => {
-        (v as any)(e, {
+        (v as any)({
           ...this.contexts,
+          event: e,
         });
       });
     }

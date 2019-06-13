@@ -108,14 +108,14 @@ class Dropdown extends Plug {
     if (hoverShow) {
       // 悬停显示分别绑定两个鼠标事件
       $on(menu, 'mouseover', (e) => {
-        const res = mouseover(e, ctx);
+        const res = mouseover({ ...ctx, e });
         if (res !== false) {
           $show(dropWrap);
         }
       });
 
       $on(menu, 'mouseout', (e) => {
-        const res = mouseout(e, ctx);
+        const res = mouseout({ ...ctx, e });
 
         if (res !== false) {
           $hide(dropWrap);
@@ -128,8 +128,7 @@ class Dropdown extends Plug {
 
         const detail = this.getDetail(target);
 
-        const xCtx = {...ctx, detail}
-        click(e, xCtx);
+        click({...ctx, detail, event: e});
       });
     } else {
       $on(menu, 'click', (e) => {
@@ -137,7 +136,7 @@ class Dropdown extends Plug {
 
         const detail: IDetail = this.getDetail(e.target);
 
-        const show = click(e, { ...ctx, detail });
+        const show = click({ ...ctx, detail, event: e });
 
         // 如果return了false 则不展开下拉菜单
         if (show !== false && !detail.isTarget) {

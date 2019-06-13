@@ -6,9 +6,7 @@ export default {
   word: 'U',
 
   event: {
-    click(e, ctx) {
-      console.log('underline');
-      console.log(e);
+    click(ctx) {
       console.log(ctx);
     }
   }

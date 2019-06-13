@@ -16,8 +16,13 @@ export default {
   `,
 
   event: {
-    click(e, ctx) {
+    click(ctx) {
+      console.log(ctx);
+      const { detail: { isTarget }, close } = ctx;
 
+      if (isTarget) {
+        close();
+      }
     },
   },
 
