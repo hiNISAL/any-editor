@@ -9,5 +9,5 @@ export default {
     click(ctx) {
       console.log(ctx);
     }
-  }
+  },
 };

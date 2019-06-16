@@ -44,23 +44,24 @@ class EditorUI {
     const { plugins } = this.config;
     const styles: string[] = [];
 
+    const ctx = {
+      document: this.editorDocument,
+      window: this.editorWindow,
+      UI: this,
+      Editor: this.Editor,
+    };
+
     plugins.forEach((item) => {
       item.id = `id-${ randomString() }`;
 
       this.plugMag[item.id] = {
-        plug: new (getPlug(item.type) as any)(item, {
-          document: this.editorDocument,
-          window: this.editorWindow,
-          UI: this,
-          Editor: this.Editor,
-        }),
+        plug: new (getPlug(item.type) as any)(item, ctx),
       };
 
       styles.push(item.style || '');
     });
 
     this.plugStyle = styles.join('');
-    console.log(this.plugMag);
   }
 
   /**

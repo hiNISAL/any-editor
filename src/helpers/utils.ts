@@ -1,10 +1,11 @@
-import { Base, Dialog, Custom, Dropdown } from '@/modules/Plug';
+import { Base, Dialog, Custom, Dropdown, Panel } from '@/modules/Plug';
 
 const PLUG_MAP = {
   base: Base,
   dialog: Dialog,
   custom: Custom,
   dropdown: Dropdown,
+  panel: Panel,
 };
 
 /**
