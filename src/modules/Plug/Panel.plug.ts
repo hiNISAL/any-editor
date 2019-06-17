@@ -6,6 +6,7 @@ class Panel extends Plug {
     super(config, ctx);
 
     this.createDOM();
+    this.setEvent();
   }
 
   private createDOM() {
@@ -17,8 +18,8 @@ class Panel extends Plug {
 
     const el = $create('div', {
       html: `
-        <div class="__age-menu-item ${ this.id }">
-          <div class="__age-menu-item-title">
+        <div class="__ae-menu-item ${ this.id }">
+          <div class="__ae-menu-item-title">
             <i class=""></i>
             <span>${ this.word }</span>
           </div>
@@ -33,6 +34,10 @@ class Panel extends Plug {
     $append($('.__ae-panel-content', el), content);
 
     this.dom = el;
+  }
+
+  private setEvent() {
+    
   }
 }
 

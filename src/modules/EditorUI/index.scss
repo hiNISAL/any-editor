@@ -14,15 +14,15 @@
     height: 40px;
     display: flex;
 
-    .__age-menu-item.active {
+    .__ae-menu-item.active {
       background: #2367b4;
       color: white;
     }
 
-    .__age-menu-item {
+    .__ae-menu-item {
       position: relative;
 
-      .__age-menu-item-title {
+      .__ae-menu-item-title {
         min-width: 30px;
         padding: 0 8px;
         text-align: center;
@@ -51,6 +51,15 @@
           }
         }
       }
+    }
+
+    // panel类型
+    .__ae-panel-content {
+      position: absolute;
+      background: white;
+      border: 1px solid #dddddd;
+      padding: 0 8px;
+      display: none;
     }
   }
 

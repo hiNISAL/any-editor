@@ -36,8 +36,8 @@ class Dropdown extends Plug {
     const el = $create('div', {
       class: '__ae-menu',
       html: `
-        <div class="__age-menu-item ${ this.id }">
-          <div class="__age-menu-item-title" title="${ this.tip }">
+        <div class="__ae-menu-item ${ this.id }">
+          <div class="__ae-menu-item-title" title="${ this.tip }">
             <i class=""></i>
             <span>${ this.word }</span>
           </div> 
@@ -89,7 +89,7 @@ class Dropdown extends Plug {
   private setEvent() {
     const hoverShow = this.hoverShow;
     const dropWrap = $('.drop-items', this.dom);
-    const menu = $('.__age-menu-item', this.dom);
+    const menu = $('.__ae-menu-item', this.dom);
 
     // 带给事件 方便触发下拉框的主动关闭
     const close = () => {

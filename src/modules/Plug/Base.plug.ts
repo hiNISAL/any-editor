@@ -13,8 +13,8 @@ class Base extends Plug implements IPlug {
     const el = $create('div', {
       class: '__ae-menu',
       html: `
-        <div class="__age-menu-item ${ this.id }">
-          <div class="__age-menu-item-title">
+        <div class="__ae-menu-item ${ this.id }">
+          <div class="__ae-menu-item-title">
             <i class=""></i>
             <span>${ this.word }</span>
           </div>

@@ -8,6 +8,8 @@ export default {
   icon: '',
   word: 'V',
 
+  hoverShow: true,
+
   html(ctx) {
     console.log(ctx);
 
