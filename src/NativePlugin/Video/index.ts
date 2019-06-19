@@ -8,7 +8,9 @@ export default {
   icon: '',
   word: 'V',
 
-  hoverShow: true,
+  style: {
+    width: '300px',
+  },
 
   html(ctx) {
     console.log(ctx);

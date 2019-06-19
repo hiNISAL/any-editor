@@ -121,7 +121,11 @@ class EditorUI {
 
   private bindCommonEvents() {
     $on(this.editorDocument, 'click', (e) => {
+      // 隐藏dropdown类型
       $$('.drop-items', this.dom).forEach(el => $hide(el));
+
+      // 隐藏panel类型
+      $$('.__ae-panel-content', this.dom).forEach(el => $hide(el));
     });
 
     $on(this.dom, 'click', (e) => {
