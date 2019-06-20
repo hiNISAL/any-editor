@@ -8,7 +8,7 @@
  * -----
  * Description: 插件基类
  */
-import { $create } from "@/helpers/utils";
+import { $create, createStyleTag, $, $append } from "@/helpers/utils";
 
 export class Plug {
   public name: string = '';
@@ -21,6 +21,14 @@ export class Plug {
   public config: any = {};
   public id: string = '';
   public dom: HTMLElement|null = $create('div');
+
+  public created: (...args) => any = () => {};
+  public beforeMount: (...args) => any = () => {};
+  public mounted: (...args) => any = () => {};
+  public beforeDestroy: (...args) => any = () => {};
+  public destroyed: (...args) => any = () => {};
+  public beforeCreate: (...args) => any = () => {};
+  public rendered: (...args) => any = () => {};
 
   public constructor(config, ctx) {
     this.config = config;
@@ -38,8 +46,17 @@ export class Plug {
       event,
       type = 'base',
       id,
+      lifetimes: {
+        beforeCreate = () => {},
+        created = () => {},
+        beforeMount = () => {},
+        mounted = () => {},
+        beforeDestroy = () => {},
+        destroyed = () => {},
+        rendered = () => {},
+      } = {},
     } = this.config;
-    
+
     this.name = name;
     this.tip = tip;
     this.icon = icon;
@@ -47,6 +64,14 @@ export class Plug {
     this.events = event;
     this.type = type;
     this.id = id;
+
+    this.beforeCreate = beforeCreate;
+    this.created = created;
+    this.beforeMount = beforeMount;
+    this.mounted = mounted;
+    this.beforeDestroy = beforeDestroy;
+    this.destroyed = destroyed;
+    this.rendered = rendered;
   }
 }
 

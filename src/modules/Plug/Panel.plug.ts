@@ -10,6 +10,8 @@ class Panel extends Plug {
   }
 
   private createDOM() {
+    this.beforeCreate(this.contexts);
+
     const defaultHTML = () => $create('div');
 
     const { html = defaultHTML, width = '', maxWidth = '' } = this.config;
@@ -34,9 +36,13 @@ class Panel extends Plug {
       `,
     });
 
+    this.beforeMount(this.contexts);
+
     $append($('.__ae-panel-content', el), content);
 
     this.dom = el;
+
+    this.mounted(this.contexts);
   }
 
   private setEvent() {

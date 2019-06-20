@@ -1,4 +1,5 @@
-import { $create } from '@/helpers/utils';
+import { $create, $, $on } from '@/helpers/utils';
+
 export default {
   type: 'panel',
 
@@ -8,9 +9,39 @@ export default {
   icon: '',
   word: 'V',
 
-  style: {
-    width: '300px',
-  },
+  width: '300px',
+
+  style: `
+    .__ae-plugin-video {
+      padding: 8px;
+      display: flex;   
+    }
+
+    .__ae-plugin-video * {
+      outline: 0;
+    }
+
+    .__ae-plugin-video input {
+      height: 24px;
+      flex: 1;
+      line-height: 24px;
+      padding: 0 8px;
+    }
+
+    .__ae-plugin-video button {
+      border: 0 none;
+      height: 27px;
+      margin-left: 8px;
+      line-height: 27px;
+      display: inline-block;
+      width: 40px;
+      cursor: pointer;
+    }
+
+    .__ae-plugin-video button:hover {
+      background: #f4f4f4;
+    }
+  `,
 
   html(ctx) {
     console.log(ctx);
@@ -18,26 +49,50 @@ export default {
     const el = $create('div', {
       html: `
         <div class="__ae-plugin-video">
-          <div>
-            <input type="text" placeholder="视频地址">
-            <button>添加</button>
-          </div>
+          <input type="text" placeholder="视频地址">
+          <button>添加</button>
         </div>
       `
-    })
+    });
+
+    $on($('button', el), 'click', (e) => {
+      const src = $('input', el).value;
+
+      console.log(src);
+    });
 
     return el;
   },
 
-  css() {
-    return `
-    
-    `;
-  },
-
   event: {
     click(ctx) {
-      console.log(ctx);
+      // console.log(ctx);
     }
-  }
+  },
+
+  lifetimes: {
+    created() {
+
+    },
+
+    beforeMount() {
+
+    },
+
+    mounted() {
+
+    },
+
+    beforeDestroy() {
+
+    },
+
+    destroyed() {
+
+    },
+
+    rendered(ctx) {
+      console.log('e')
+    },
+  },
 };

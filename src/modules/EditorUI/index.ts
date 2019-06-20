@@ -1,6 +1,6 @@
 import frameStyle from '@/config/editor-content-style.config';
 import { defaultHTML, baseTemplate, checkContentEmpty } from './helpers';
-import { randomString, getPlug, $create, $, $append, $on, $$, $hide, asyncTask } from '@/helpers/utils';
+import { createStyleTag, randomString, getPlug, $create, $, $append, $on, $$, $hide, asyncTask } from '@/helpers/utils';
 import './index.scss';
 
 class EditorUI {
@@ -33,7 +33,16 @@ class EditorUI {
 
     this.createUI();
 
-    this.initIframe();
+    this.init();
+  }
+
+  private getContext() {
+    return {
+      document: this.editorDocument,
+      window: this.editorWindow,
+      UI: this,
+      Editor: this.Editor,
+    };
   }
 
 
@@ -44,12 +53,7 @@ class EditorUI {
     const { plugins } = this.config;
     const styles: string[] = [];
 
-    const ctx = {
-      document: this.editorDocument,
-      window: this.editorWindow,
-      UI: this,
-      Editor: this.Editor,
-    };
+    const ctx = this.getContext();
 
     plugins.forEach((item) => {
       item.id = `id-${ randomString() }`;
@@ -91,8 +95,9 @@ class EditorUI {
 
   /**
    * 等待iframe初始化 并获得doc win等内容
+   * 初始化插件等 挂载大部分内容
    */
-  private initIframe() {
+  private init() {
     asyncTask(() => {
       const editorContent: any = this.editorContent;
       this.editorDocument = editorContent.contentDocument;
@@ -103,7 +108,9 @@ class EditorUI {
       this.setContent(this.initHTML);
       // 把自定义样式挂进去
       (this.editorDocument as any).querySelector('head').appendChild(frameStyle());
-   
+      // 所有插件的自定义样式挂载
+      $append($('head'), createStyleTag(this.plugStyle));
+
       // 把插件的dom插入到编辑器
       this.renderPlug();
       // 绑定其他事件
@@ -113,10 +120,16 @@ class EditorUI {
 
   // 渲染插件
   private renderPlug() {
-    $append(
-      $('.__ae-menu', this.dom), 
-      ...Object.values(this.plugMag).map((item: any) => item.plug.dom)
-    );
+    const ctx = this.getContext();
+
+    Object.values(this.plugMag).forEach((item : any) => {
+      $append(
+        $('.__ae-menu', this.dom), 
+        item.plug.dom,
+      );
+
+      item.plug.rendered(ctx);
+    });
   }
 
   private bindCommonEvents() {
