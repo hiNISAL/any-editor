@@ -26,8 +26,12 @@ export default {
     },
   },
 
+  labelKey: '', // default: label
+  valueKey: '', // default: value
+
   dropItems: sizes.map((size, index) => ({
     label: `${size}px`,
     value: index,
+    a: index,
   })),
 };

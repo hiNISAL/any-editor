@@ -137,3 +137,7 @@ export const $show = (el, display = 'block'): void => {
 export const $hide = (el): void => {
   el.style.display = 'none';
 };
+
+export const hideClick = () => {
+  $$('.click-hide').forEach(el => ($hide(el)));
+};

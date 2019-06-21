@@ -1,4 +1,4 @@
-import { $create, $, $on, $show, $hide } from '@/helpers/utils';
+import { $create, $, $on, $show, $hide, hideClick } from '@/helpers/utils';
 import { Plug, IPlug } from './Plug';
 
 interface IDropItem {
@@ -18,21 +18,29 @@ class Dropdown extends Plug {
   private dropItems: IDropItem[] = [];
   private hoverShow: boolean = false;
   private maxHeight: number = 0;
+  private labelKey: string = 'label';
+  private valueKey: string = 'value';
 
   private constructor(config, ctx) {
     super(config, ctx);
 
-    const { dropItems = [], maxHeight = 0, hoverShow = false } = config;
-
+    const { dropItems = [], maxHeight = 0, hoverShow = false, labelKey, valueKey } = config;
+    console.log(config);
     this.dropItems = dropItems;
     this.maxHeight = maxHeight;
     this.hoverShow = hoverShow;
-    
+    this.labelKey = labelKey || 'label';
+    this.valueKey = valueKey || 'value';
+
     this.createDOM();
     this.setEvent();
   }
 
   private createDOM() {
+    this.beforeCreate(this.contexts);
+
+    const { labelKey, valueKey } = this;
+    console.log(labelKey, valueKey);
     const el = $create('div', {
       class: '__ae-menu',
       html: `
@@ -41,7 +49,7 @@ class Dropdown extends Plug {
             <i class=""></i>
             <span>${ this.word }</span>
           </div> 
-          <div class="drop-items" style="display: none; ${
+          <div class="drop-items click-hide" style="display: none; ${
             this.maxHeight > 0
               ? `overflow: hidden; overflow-y: scroll; max-height: ${ this.maxHeight }px;`
               : 'height: auto'
@@ -52,11 +60,11 @@ class Dropdown extends Plug {
                   <div
                     class="item "
                     ${ item.title ? `title="${ item.title }"` : '' }
-                    data-value="${ item.value }"
-                    data-label="${ item.label }"
+                    data-value="${ item[valueKey] }"
+                    data-label="${ item[labelKey] }"
                     data-index="${ index }"
                   >
-                    ${ item.label }
+                    ${ item[labelKey] }
                   </div>
                 `;
               }).join('')
@@ -65,8 +73,10 @@ class Dropdown extends Plug {
         </div>
       `,
     });
-    
+
     this.dom = el;
+    
+    this.mounted(this.contexts);
   }
 
   private getDetail(target): IDetail {
@@ -133,6 +143,7 @@ class Dropdown extends Plug {
     } else {
       $on(menu, 'click', (e) => {
         e.stopPropagation();
+        hideClick();
 
         const detail: IDetail = this.getDetail(e.target);
 

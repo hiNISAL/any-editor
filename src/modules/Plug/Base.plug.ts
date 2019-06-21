@@ -1,5 +1,5 @@
 import { Plug, IPlug } from './Plug';
-import { $create, $, $on } from '@/helpers/utils';
+import { $create, $, $on, hideClick } from '@/helpers/utils';
 
 class Base extends Plug implements IPlug {
   constructor(config, ctx) {
@@ -10,6 +10,8 @@ class Base extends Plug implements IPlug {
   }
 
   private createDOM() {
+    this.beforeCreate(this.contexts);
+
     const el = $create('div', {
       class: '__ae-menu',
       html: `
@@ -23,6 +25,8 @@ class Base extends Plug implements IPlug {
     });
 
     this.dom = el;
+
+    this.mounted(this.contexts);
   }
 
   /**
@@ -30,6 +34,7 @@ class Base extends Plug implements IPlug {
    */
   private setEvent() {
     const events = this.events;
+    $on(this.dom, 'click', () => hideClick());
 
     for (const [k, v] of Object.entries(events)) {
       $on(this.dom, k, (e) => {

@@ -22,8 +22,6 @@ export class Plug {
   public id: string = '';
   public dom: HTMLElement|null = $create('div');
 
-  public created: (...args) => any = () => {};
-  public beforeMount: (...args) => any = () => {};
   public mounted: (...args) => any = () => {};
   public beforeDestroy: (...args) => any = () => {};
   public destroyed: (...args) => any = () => {};
@@ -48,8 +46,6 @@ export class Plug {
       id,
       lifetimes: {
         beforeCreate = () => {},
-        created = () => {},
-        beforeMount = () => {},
         mounted = () => {},
         beforeDestroy = () => {},
         destroyed = () => {},
@@ -66,8 +62,6 @@ export class Plug {
     this.id = id;
 
     this.beforeCreate = beforeCreate;
-    this.created = created;
-    this.beforeMount = beforeMount;
     this.mounted = mounted;
     this.beforeDestroy = beforeDestroy;
     this.destroyed = destroyed;

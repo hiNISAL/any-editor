@@ -1,4 +1,4 @@
-import { $create, $append, $show, $hide, $, $on } from '@/helpers/utils';
+import { $create, $append, $show, $hide, $, $on, hideClick } from '@/helpers/utils';
 import { Plug, IPlug } from './Plug';
 
 class Panel extends Plug {
@@ -27,7 +27,7 @@ class Panel extends Plug {
           </div>
 
           <div
-            class="__ae-panel-content"
+            class="__ae-panel-content click-hide"
             style="${ width ? `width: ${ width };` : '' }${ maxWidth ? `max-width: ${ maxWidth };` : '' }"
           >
           
@@ -35,8 +35,6 @@ class Panel extends Plug {
         </div>
       `,
     });
-
-    this.beforeMount(this.contexts);
 
     $append($('.__ae-panel-content', el), content);
 
@@ -82,6 +80,7 @@ class Panel extends Plug {
     } else {
       $on(wrap, 'click', (e) => {
         e.stopPropagation();
+        hideClick();
 
         const show = click({ ...ctx, event: e });
 
