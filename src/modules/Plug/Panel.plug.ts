@@ -16,8 +16,6 @@ class Panel extends Plug {
 
     const { html = defaultHTML, width = '', maxWidth = '' } = this.config;
 
-    const content = html(this.contexts);
-
     const el = $create('div', {
       html: `
         <div class="__ae-menu-item ${ this.id }">
@@ -34,6 +32,13 @@ class Panel extends Plug {
           </div>
         </div>
       `,
+    });
+
+    const content = html({
+      ...this.contexts,
+      close() {
+        $hide($('.__ae-panel-content', el));
+      },
     });
 
     $append($('.__ae-panel-content', el), content);

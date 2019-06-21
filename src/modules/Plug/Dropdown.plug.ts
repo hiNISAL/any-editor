@@ -25,7 +25,7 @@ class Dropdown extends Plug {
     super(config, ctx);
 
     const { dropItems = [], maxHeight = 0, hoverShow = false, labelKey, valueKey } = config;
-    console.log(config);
+
     this.dropItems = dropItems;
     this.maxHeight = maxHeight;
     this.hoverShow = hoverShow;
@@ -40,7 +40,7 @@ class Dropdown extends Plug {
     this.beforeCreate(this.contexts);
 
     const { labelKey, valueKey } = this;
-    console.log(labelKey, valueKey);
+
     const el = $create('div', {
       class: '__ae-menu',
       html: `

@@ -44,8 +44,6 @@ export default {
   `,
 
   html(ctx) {
-    console.log(ctx);
-
     const el = $create('div', {
       html: `
         <div class="__ae-plugin-video">
@@ -56,9 +54,13 @@ export default {
     });
 
     $on($('button', el), 'click', (e) => {
+      e.stopPropagation();
+
       const src = $('input', el).value;
 
       console.log(src);
+      // alert(`添加了${src}`);
+      ctx.close();
     });
 
     return el;
@@ -71,14 +73,6 @@ export default {
   },
 
   lifetimes: {
-    created() {
-
-    },
-
-    beforeMount() {
-
-    },
-
     mounted() {
 
     },
@@ -92,7 +86,7 @@ export default {
     },
 
     rendered(ctx) {
-      console.log('e')
+
     },
   },
 };
