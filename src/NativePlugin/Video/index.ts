@@ -58,8 +58,6 @@ export default {
 
       const src = $('input', el).value;
 
-      console.log(src);
-      // alert(`添加了${src}`);
       ctx.close();
     });
 
